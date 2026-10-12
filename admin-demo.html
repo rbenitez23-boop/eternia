@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://lh3.googleusercontent.com; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Eternia · Panel demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+<style>
+  :root{--may:#4C9141;--bosque:#3F7D36;--bosque-osc:#2E5E28;--lino:#F4EFE6;--salvia:#E4EEDF;--carbon:#1F2620;--gris:#5E665F;--linea:#ECE8DF;--borde:#E6E2D8;--fondo:#FAF8F4}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--fondo);color:var(--carbon);font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:15px}
+  button,input,select,textarea{font:inherit;color:inherit}
+  .layout{display:flex;flex-wrap:wrap;min-height:100vh}
+  aside{flex:1 1 220px;max-width:270px;background:#fff;border-right:1px solid var(--linea);padding:28px 20px;display:flex;flex-direction:column;gap:6px}
+  .brand{font-size:24px;font-weight:700;letter-spacing:-.02em;color:var(--may);padding:0 12px 18px}
+  .brand small{font-size:12px;color:var(--gris);letter-spacing:0;font-weight:600}
+  .logo-card{display:flex;align-items:center;gap:12px;padding:12px;margin-bottom:14px;border-radius:14px;background:var(--lino)}
+  .logo-box{width:52px;height:52px;flex-shrink:0;border-radius:12px;background:#fff;border:1.5px dashed #9DBF93;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--bosque);overflow:hidden}
+  .logo-box img{width:100%;height:100%;object-fit:contain}
+  .link-btn{background:none;border:0;padding:0;color:var(--bosque);font-weight:600;font-size:13px;cursor:pointer;text-align:left}
+  .nav{display:flex;align-items:center;gap:8px;height:44px;padding:0 12px;border:0;border-radius:12px;background:transparent;font-weight:500;text-align:left;cursor:pointer}
+  .nav.on{background:var(--salvia);color:var(--bosque-osc);font-weight:600}
+  .nav .count{margin-left:auto;font-size:12px;background:var(--bosque);color:#fff;border-radius:999px;padding:2px 8px}
+  main{flex:999 1 560px;min-width:0;padding:32px 40px;display:flex;flex-direction:column;gap:24px}
+  h1{margin:0;font-size:26px}
+  .row{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start}
+  .card{background:#fff;border:1px solid var(--linea);border-radius:20px}
+  form.card{flex:1 1 300px;max-width:380px;padding:24px;display:flex;flex-direction:column;gap:16px}
+  .drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:180px;border:2px dashed #CFD9C9;border-radius:16px;background:var(--lino);color:var(--bosque);cursor:pointer;text-align:center;padding:12px;overflow:hidden}
+  .drop img{max-width:100%;max-height:220px;border-radius:10px}
+  .drop small{color:var(--gris)}
+  label.f{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600}
+  input[type=text],select{height:44px;border:1px solid var(--borde);border-radius:12px;padding:0 12px;font-weight:400;background:#fff}
+  .btn{height:46px;border:0;border-radius:999px;background:var(--bosque);color:#fff;font-weight:700;cursor:pointer;padding:0 22px}
+  .btn:disabled{opacity:.6;cursor:wait}
+  .btn.ghost{background:#fff;color:var(--carbon);border:1px solid var(--borde)}
+  .btn.danger{background:#fff;color:#A3271F;border:1px solid #F0CFCB}
+  .grid{flex:2 1 420px;min-width:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
+  .d{padding:10px;display:flex;flex-direction:column;gap:8px}
+  .d .ph{aspect-ratio:4/5;border-radius:12px;background:var(--lino);overflow:hidden}
+  .d .ph img{width:100%;height:100%;object-fit:cover;display:block}
+  .d .t{font-size:13px;font-weight:600}
+  .d .c{font-size:12px;color:var(--gris)}
+  .tag-off{font-size:11px;font-weight:700;color:#7A4E00;background:#FDF0D5;border-radius:999px;padding:2px 8px;align-self:flex-start}
+  .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{height:38px;padding:0 16px;border:0;border-radius:999px;background:var(--lino);cursor:pointer;font-weight:500;font-size:14px}
+  .chip.on{background:var(--carbon);color:#fff}
+  .order{padding:20px;display:flex;flex-direction:column;gap:12px}
+  .order-h{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
+  .order-h b{font-size:16px}
+  .muted{color:var(--gris);font-size:13px}
+  .tbl{overflow-x:auto}
+  table{width:100%;min-width:560px;border-collapse:collapse;font-size:14px}
+  th{text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--gris);font-weight:600;padding:8px 10px}
+  td{padding:10px;border-top:1px solid var(--linea);vertical-align:top}
+  .empty{padding:40px;text-align:center;color:var(--gris)}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--carbon);color:#fff;padding:12px 20px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none}
+  .toast.show{opacity:1}
+  dialog{border:0;border-radius:20px;padding:24px;width:min(420px,92vw)}
+  dialog::backdrop{background:rgba(31,38,32,.45)}
+  .dlg{display:flex;flex-direction:column;gap:14px}
+  .check{display:flex;gap:10px;align-items:center;font-weight:500}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+  .contact{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;border-radius:999px;background:var(--salvia);color:var(--bosque-osc);font-weight:600;font-size:13px;text-decoration:none}
+  .g{padding:10px;display:flex;flex-direction:column;gap:8px}
+  .g .ph{aspect-ratio:1;border-radius:12px;background:var(--lino);overflow:hidden}
+  .g .ph img{width:100%;height:100%;object-fit:cover;display:block}
+  .g .row2{display:flex;gap:6px;flex-wrap:wrap}
+  .g .row2 .btn{height:34px;font-size:12px;padding:0 12px;flex:1}
+  .st{font-size:11px;font-weight:700;border-radius:999px;padding:2px 8px;align-self:flex-start;background:var(--lino)}
+  .st.Pendiente{background:#FDF0D5;color:#7A4E00}.st.Aprobada{background:var(--salvia);color:var(--bosque-osc)}.st.Rechazada{background:#FBE7E5;color:#A3271F}
+  .demo-flag{font-size:13px;background:#FDF0D5;color:#7A4E00;border-radius:12px;padding:10px 14px}
+  @media (max-width:700px){main{padding:20px 16px}aside{max-width:none;border-right:0;border-bottom:1px solid var(--linea)}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside>
+    <div class="brand">eternia <small>admin</small></div>
+    <div class="demo-flag">Panel de prueba: ves los pedidos que hiciste en el demo, en este navegador. <a href="./">← Volver a la tienda</a></div>
+    <div class="logo-card">
+      <div class="logo-box" id="logoBox">LOGO</div>
+      <div>
+        <div style="font-size:13px;font-weight:600">Logo de la tienda</div>
+        <button class="link-btn" id="logoBtn" type="button">Cambiar logo</button>
+        <input type="file" id="logoFile" accept="image/png,image/jpeg,image/webp" hidden>
+      </div>
+    </div>
+    <button class="nav on" data-view="designs" type="button">Diseños</button>
+    <button class="nav" data-view="orders" type="button">Pedidos <span class="count" id="newCount" hidden>0</span></button>
+    <button class="nav" data-view="gallery" type="button">Galería de clientes <span class="count" id="galCount" hidden>0</span></button>
+  </aside>
+
+  <main>
+    <section id="vDesigns">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:24px">
+        <h1>Diseños</h1><span class="muted" id="designCount"></span>
+      </div>
+      <div class="row">
+        <form class="card" id="upForm">
+          <b>Subir nuevo diseño</b>
+          <label class="drop" id="drop">
+            <span id="dropTxt"><b>Elige la foto</b><br><small>JPG, PNG o WebP · se optimiza sola</small></span>
+            <input type="file" id="upFile" accept="image/png,image/jpeg,image/webp" hidden>
+          </label>
+          <label class="f">Título<input type="text" id="upTitle" maxlength="80" placeholder="Ej. Flores de domingo" autocomplete="off"></label>
+          <label class="f">Categoría<input type="text" id="upCat" maxlength="40" list="catList" placeholder="Ej. Florales" autocomplete="off"></label>
+          <datalist id="catList"></datalist>
+          <button class="btn" id="upBtn" type="submit">Publicar diseño</button>
+          <span class="muted">Aparece en la página en menos de 1 minuto.</span>
+        </form>
+        <div class="grid" id="grid"></div>
+      </div>
+    </section>
+
+    <section id="vGallery" hidden>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px">
+        <h1>Galería de clientes</h1><span class="muted">Solo las fotos aprobadas aparecen en la página</span>
+      </div>
+      <div class="chips" id="galChips" style="margin-bottom:20px"></div>
+      <div class="grid" id="galGrid" style="flex:none"></div>
+    </section>
+
+    <section id="vOrders" hidden>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px">
+        <h1>Pedidos</h1><span class="muted">También los ves en el Google Sheet, hoja "Pedidos"</span>
+      </div>
+      <div class="chips" id="statusChips" style="margin-bottom:20px"></div>
+      <div id="orders" style="display:flex;flex-direction:column;gap:16px"></div>
+    </section>
+  </main>
+</div>
+
+<dialog id="editDlg">
+  <form class="dlg" method="dialog" id="editForm">
+    <b style="font-size:18px">Editar diseño</b>
+    <label class="f">Título<input type="text" id="edTitle" maxlength="80"></label>
+    <label class="f">Categoría<input type="text" id="edCat" maxlength="40" list="catList"></label>
+    <label class="check"><input type="checkbox" id="edVisible"> Visible en la página</label>
+    <div class="actions">
+      <button class="btn danger" id="edDelete" type="button">Eliminar</button>
+      <button class="btn ghost" value="cancel" type="submit">Cancelar</button>
+      <button class="btn" id="edSave" type="button">Guardar</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="config.js"></script>
+<script src="demo.js"></script>
+<script src="admin-demo.js"></script>
+
+</body>
+</html>
